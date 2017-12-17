@@ -1,7 +1,11 @@
 from rest_framework import viewsets, status
+from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+
 from users.serializers import UserSerializer
 from users.models import User
+from users.utils import TwitterClient, WatsonClient
+
 from django.shortcuts import get_object_or_404
 
 
@@ -41,4 +45,26 @@ class UserViewSet(viewsets.ModelViewSet):
             user.set_password(password)
             user.save()
 
+        return Response(self.get_serializer(user).data)
+
+    @detail_route(methods=['POST'], url_path='update-statistics')
+    def update_statistics(self, request, pk=None):
+        user = get_object_or_404(User, pk=pk)
+
+        twitter_client = TwitterClient()
+        twitter_data = twitter_client.send('statuses/user_timeline.json?screen_name={}&count=200'.format(user.twitter_handle))
+
+        text = " ".join([content['text'] for content in twitter_data])
+
+        watson_client = WatsonClient()
+        watson_data = watson_client.send(
+            'profile?version=2017-10-13',
+            data={
+                'content': text
+            },
+            method='post'
+        )
+
+        user.statistics = watson_data
+        user.save()
         return Response(self.get_serializer(user).data)

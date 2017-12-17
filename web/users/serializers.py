@@ -13,4 +13,5 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
             'twitter_handle',
+            'statistics'
         )
