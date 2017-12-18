@@ -1,3 +1,6 @@
+import requests
+
+from django.core.files.base import ContentFile
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -21,12 +24,26 @@ class UserViewSet(viewsets.ModelViewSet):
 
         password = request.data.get('password')
         if not password:
-            return Response(data="Password is required", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    "password": [
+                        "This field is required."
+                    ]
+                },
+            status=status.HTTP_400_BAD_REQUEST)
 
         data = serializer.data
 
+        twitter_client = TwitterClient()
+        twitter_data = twitter_client.send('users/show.json?screen_name={}'.format(data['twitter_handle']))
+
+        image_url = twitter_data['profile_image_url'].replace('_normal', '')
+        image_content = requests.get(image_url)
+
         user = User.objects.create(**data)
         user.set_password(password)
+        user.image.save('user_picture.jpg', ContentFile(image_content.content), save=False)
+
         user.save()
 
         return Response(self.get_serializer(user).data)
