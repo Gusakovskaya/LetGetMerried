@@ -19,8 +19,6 @@ submit_button.click(function( event ) {
         data["longitude"] = place.geometry.location.lng();
     }
 
-    console.log(data);
-
     $.ajax({
       type: "POST",
       url: '/api/users',

@@ -4,3 +4,12 @@
 body {
     height: 100%;
 }
+
+.user-picture {
+    max-width: 64%;
+    max-height: 64%;
+}
+
+.container-picture, .container-text {
+    text-align: center;
+}
