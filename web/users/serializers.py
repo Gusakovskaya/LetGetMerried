@@ -32,3 +32,8 @@ class UserSerializer(serializers.ModelSerializer):
         if 'image' in data:
             data['image'] = instance.image.name
         return data
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)

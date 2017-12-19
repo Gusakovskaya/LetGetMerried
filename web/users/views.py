@@ -2,10 +2,10 @@ import requests
 
 from django.core.files.base import ContentFile
 from rest_framework import viewsets, status
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, LoginSerializer
 from users.models import User
 from users.utils import TwitterClient, WatsonClient
 
@@ -75,4 +75,24 @@ class UserViewSet(viewsets.ModelViewSet):
 
         user.statistics = watson_data
         user.save()
+        return Response(self.get_serializer(user).data)
+
+    @list_route(methods=['POST'])
+    def login(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data = serializer.data
+
+        user = get_object_or_404(User, username=data['username'])
+        if user.check_password(data['password']):
+            request.session['user_id'] = user.id
+            return Response("You're logged in.")
+
+    @list_route(methods=['GET'], url_path='is-auth')
+    def is_auth(self, request):
+        if 'user_id' not in request.session:
+            return Response("Not authorized", status=status.HTTP_400_BAD_REQUEST)
+        user_id = request.session['user_id']
+        user = User.objects.get(id=user_id)
         return Response(self.get_serializer(user).data)
