@@ -23,14 +23,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         password = request.data.get('password')
-        if not password:
-            return Response(
-                {
-                    "password": [
-                        "This field is required."
-                    ]
-                },
-            status=status.HTTP_400_BAD_REQUEST)
 
         data = serializer.data
 
@@ -43,7 +35,6 @@ class UserViewSet(viewsets.ModelViewSet):
         user = User.objects.create(**data)
         user.set_password(password)
         user.image.save('user_picture.jpg', ContentFile(image_content.content), save=False)
-
         user.save()
 
         return Response(self.get_serializer(user).data)

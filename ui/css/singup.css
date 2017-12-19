@@ -1,0 +1,15 @@
+#div-container {
+    height: 100%;
+}
+#inner-div {
+    top: 8%;
+    position: relative;
+    width: 30%;
+    margin: auto;
+}
+#image-container {
+    text-align: center;
+}
+#logo {
+    width: 100%;
+}
