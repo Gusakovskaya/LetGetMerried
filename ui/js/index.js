@@ -31,3 +31,13 @@ $.ajax({
   }
 });
 
+$.ajax({
+  type: "GET",
+  url: '/api/users/is-auth',
+  success: function(data) {
+    console.log(data);
+    var picture = $("#user-profile-picture")
+    picture.attr("src", data.image)
+  }
+});
+

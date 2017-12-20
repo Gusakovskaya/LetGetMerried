@@ -13,3 +13,35 @@ body {
 .container-picture, .container-text {
     text-align: center;
 }
+
+#user {
+    position: fixed;
+    top: 1%;
+    z-index: 1000;
+    width: 100%;
+}
+
+#user-profile-picture {
+    width: 54px;
+    margin: auto;
+    display: block;
+}
+#user-dropdown {
+    position: relative;
+    width: 4%;
+    left: 90%;
+}
+
+.user-select {
+    display: block;
+    text-decorator: none;
+    color: black;
+    font-size: medium;
+}
+
+#user-dropdown-menu {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    left: -90%;
+}

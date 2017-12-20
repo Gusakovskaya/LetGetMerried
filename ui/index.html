@@ -5,7 +5,17 @@
     <link rel="stylesheet" href="css/index.css" />
 <body>
     <div id="mapid"></div>
+    <div id="user">
+        <div id="user-dropdown" class="dropdown show">
+            <img id="user-profile-picture" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="img-circle" />
+            <div id="user-dropdown-menu" class="dropdown-menu" aria-labelledby="user-profile-picture">
+                <a class="dropdown-item user-select" href="#">Profile</a>
+                <a class="dropdown-item user-select" href="#">Logout</a>
+            </div>
+        </div>
 
+        <!--<img id="user-profile-picture" class="img-circle" />-->
+    </div>
     <script src="js/leaflet.js"></script>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
