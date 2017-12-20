@@ -1,0 +1,30 @@
+.user-info {
+    display: flex;
+}
+
+#div-container {
+    height: 100%;
+}
+#inner-div {
+    position: relative;
+    width: 31%;
+    margin: auto;
+}
+#image-container {
+    text-align: center;
+}
+#logo {
+    width: 100%;
+}
+
+.content {
+    margin-left: 10px;
+}
+
+.watson-result {
+    margin: auto;
+}
+
+#info-container {
+    margin-top: 10%;
+}
